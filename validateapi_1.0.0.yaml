@@ -1,0 +1,78 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "validateapi"
+  title: "validateAPI"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/validateapi"
+produces:
+- "application/json"
+securityDefinitions:
+  clientIdHeader:
+    type: "apiKey"
+    in: "header"
+    name: "X-IBM-Client-Id"
+security:
+- clientIdHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - validate:
+        title: "validate"
+        version: "1.0.0"
+        definition: "#/definitions/request-layout"
+        description: "リクエストパラメータの入力チェック"
+    catch:
+    - errors: []
+      execute: []
+  phase: "realized"
+paths:
+  /:
+    post:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "request"
+        required: false
+        in: "body"
+        schema:
+          $ref: "#/definitions/request-layout"
+tags: []
+definitions:
+  request-layout:
+    properties:
+      itemStr:
+        type: "string"
+        description: "文字"
+        example: "str1"
+      itemInt:
+        type: "integer"
+        description: "数値"
+        example: 10
+        format: "int32"
+      itemBool:
+        type: "boolean"
+        description: "真偽"
+        example: true
+      itemDate:
+        type: "string"
+        description: "日付"
+        format: "date"
+        example: "2019-06-09"
+      itemDateTime:
+        type: "string"
+        description: "日時"
+        format: "date-time"
+        example: "2019-06-09T08:00:00.000+09:00"
+    additionalProperties: false
+    description: ""
+    required:
+    - "itemStr"
