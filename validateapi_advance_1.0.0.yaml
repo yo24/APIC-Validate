@@ -1,0 +1,140 @@
+---
+swagger: "2.0"
+info:
+  x-ibm-name: "validateapi_advance"
+  title: "validateAPI_advance"
+  version: "1.0.0"
+schemes:
+- "https"
+host: "$(catalog.host)"
+basePath: "/validateapi/advance"
+produces:
+- "application/json"
+securityDefinitions:
+  clientIdHeader:
+    type: "apiKey"
+    in: "header"
+    name: "X-IBM-Client-Id"
+security:
+- clientIdHeader: []
+x-ibm-configuration:
+  testable: true
+  enforced: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+    - validate:
+        title: "validate"
+        version: "1.0.0"
+        definition: "#/definitions/request-layout"
+        description: "リクエストパラメータの入力チェック"
+    catch:
+    - errors: []
+      execute: []
+  phase: "realized"
+paths:
+  /:
+    post:
+      responses:
+        200:
+          description: "200 OK"
+      parameters:
+      - name: "request"
+        required: false
+        in: "body"
+        schema:
+          $ref: "#/definitions/request-layout"
+tags: []
+definitions:
+  request-layout:
+    properties:
+      itemMaximum:
+        type: "integer"
+        format: "int32"
+        description: "数値最大"
+        example: 10
+        maximum: 15
+      itemExclusiveMaximum:
+        type: "integer"
+        format: "int32"
+        description: "exclusiveMaximum"
+        example: 10
+        maximum: 15
+        exclusiveMaximum: true
+      itemMinimum:
+        type: "integer"
+        format: "int32"
+        description: "数値最小"
+        example: 5
+        minimum: 4
+      itemExclusiveMinimum:
+        type: "integer"
+        format: "int32"
+        description: "exclusiveMinimum"
+        example: 5
+        minimum: 4
+        exclusiveMinimum: true
+      itemMaxLength:
+        type: "string"
+        description: "文字長(最大)"
+        example: "abcde"
+        maxLength: 5
+      itemMinLength:
+        type: "string"
+        description: "文字長(最小)"
+        example: "ab"
+        minLength: 2
+      itemPattern:
+        type: "string"
+        description: "正規表現"
+        example: "abcde"
+        pattern: "^([\\x01-\\x7E\\x{FF61}-\\x{FF9F}]+$)|(^$)"
+      itemMaxItems:
+        type: "array"
+        items:
+          type: "string"
+        description: "配列数(最大)"
+        example:
+        - "a"
+        - "b"
+        - "c"
+        - "d"
+        - "e"
+        maxItems: 5
+      itemMinItems:
+        type: "array"
+        items:
+          type: "string"
+        description: "配列数(最大)"
+        example:
+        - "a"
+        - "b"
+        - "c"
+        minItems: 3
+      itemUniqueItems:
+        type: "array"
+        items:
+          type: "string"
+        description: "配列要素のユニーク性"
+        example:
+        - "a"
+        - "b"
+        - "c"
+        uniqueItems: true
+      itemEnum:
+        type: "string"
+        description: "値を固定"
+        example: "red"
+        enum:
+        - "red"
+        - "blue"
+        - "yellow"
+      itemMultipleOf:
+        type: "integer"
+        description: "倍数"
+        example: 20
+        format: "int32"
+        multipleOf: 10
+    additionalProperties: false
+    description: ""
