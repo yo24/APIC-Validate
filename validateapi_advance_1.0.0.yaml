@@ -33,6 +33,11 @@ x-ibm-configuration:
     - errors: []
       execute: []
   phase: "realized"
+  properties:
+    halfCharPattern:
+      value: "^([\\x01-\\x7E\\x{FF61}-\\x{FF9F}]+$)|(^$)"
+      description: ""
+      encoded: false
 paths:
   /:
     post:
@@ -90,6 +95,11 @@ definitions:
         description: "正規表現"
         example: "abcde"
         pattern: "^([\\x01-\\x7E\\x{FF61}-\\x{FF9F}]+$)|(^$)"
+      itemPatternFromProp:
+        type: "string"
+        description: "正規表現(プロパティー)"
+        example: "abcde"
+        pattern: "$(halfCharPattern)"
       itemMaxItems:
         type: "array"
         items:
